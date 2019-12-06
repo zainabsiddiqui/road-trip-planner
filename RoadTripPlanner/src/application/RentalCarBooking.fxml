@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.RentalCarBookingController">
+    <children>
+        <Text layoutX="327.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Rentals in">
+         <font>
+            <Font name="Lato Regular" size="24.0" />
+         </font></Text>
+        <Text fx:id="txtCityName" layoutX="292.0" layoutY="122.0" strokeType="OUTSIDE" strokeWidth="0.0" text="CityName" textAlignment="CENTER">
+         <font>
+            <Font name="Lato Bold" size="48.0" />
+         </font></Text>
+        <Pane layoutX="66.0" layoutY="180.0" prefHeight="61.0" prefWidth="671.0" style="-fx-background-color: white;">
+            <children>
+                <Button fx:id="btnCar1Booking" defaultButton="true" layoutX="579.0" layoutY="10.0" mnemonicParsing="false" onAction="#bookCar1" style="-fx-background-color: #08a385;" text="BOOK" textFill="WHITE">
+               <font>
+                  <Font name="Lato Bold" size="18.0" />
+               </font></Button>
+                <Text fx:id="txtCar1Name" layoutX="14.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Name 1">
+               <font>
+                  <Font name="Lato Regular" size="24.0" />
+               </font></Text>
+                <Text layoutX="535.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/day">
+               <font>
+                  <Font name="Lato Regular" size="12.0" />
+               </font></Text>
+            <Text fx:id="txtCar1Cost" layoutX="535.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font name="Lato Bold" size="12.0" />
+               </font></Text>
+            </children>
+        </Pane>
+        <Pane layoutX="66.0" layoutY="279.0" prefHeight="61.0" prefWidth="671.0" style="-fx-background-color: white;">
+            <children>
+                <Button fx:id="btnCar2Booking" layoutX="579.0" layoutY="12.0" mnemonicParsing="false" onAction="#bookCar2" style="-fx-background-color: #08a385;" text="BOOK" textFill="WHITE">
+               <font>
+                  <Font name="Lato Bold" size="18.0" />
+               </font></Button>
+                <Text fx:id="txtCar2Name" layoutX="14.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Name 2">
+               <font>
+                  <Font name="Lato Regular" size="24.0" />
+               </font></Text>
+                <Text layoutX="537.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/day">
+               <font>
+                  <Font name="Lato Regular" size="12.0" />
+               </font></Text>
+            <Text fx:id="txtCar2Cost" layoutX="537.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font name="Lato Bold" size="12.0" />
+               </font></Text>
+            </children>
+        </Pane>
+        <Pane layoutX="66.0" layoutY="381.0" prefHeight="61.0" prefWidth="671.0" style="-fx-background-color: white;">
+            <children>
+                <Button fx:id="btnCar3Booking" layoutX="579.0" layoutY="13.0" mnemonicParsing="false" onAction="#bookCar3" style="-fx-background-color: #08a385;" text="BOOK" textFill="WHITE">
+               <font>
+                  <Font name="Lato Bold" size="18.0" />
+               </font></Button>
+                <Text fx:id="txtCar3Name" layoutX="14.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Car Name 3">
+               <font>
+                  <Font name="Lato Regular" size="24.0" />
+               </font></Text>
+                <Text layoutX="541.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="/day">
+               <font>
+                  <Font name="Lato Regular" size="12.0" />
+               </font></Text>
+            <Text fx:id="txtCar3Cost" layoutX="542.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+               <font>
+                  <Font name="Lato Bold" size="12.0" />
+               </font></Text>
+            </children>
+        </Pane>
+      <ImageView fitHeight="162.0" fitWidth="339.0" layoutX="461.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@city.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnBack" layoutX="42.0" layoutY="39.0" mnemonicParsing="false" onAction="#onBack" style="-fx-background-color: #08a385;" text="← BACK" textFill="WHITE">
+         <font>
+            <Font name="Lato Bold" size="18.0" />
+         </font>
+      </Button>
+    </children>
+</AnchorPane>

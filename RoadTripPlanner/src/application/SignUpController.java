@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -60,35 +61,50 @@ public class SignUpController implements Initializable{
 
     @FXML
     void createAccount(ActionEvent event) throws IOException {
-        String insert = "INSERT INTO user(username, pass, fname, lname, phone) VALUES (?,?,?,?,?)";
+        if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || tfPass.getText().isEmpty() || tfConfirmPass.getText().isEmpty()
+                || tfPhone.getText().isEmpty() || tfUsername.getText().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Please fill in all the fields.").showAndWait();
+        } else {
+            if (!tfPass.getText().equals(tfConfirmPass.getText())) {
+                new Alert(Alert.AlertType.ERROR, "Passwords don't match. Please try again!").showAndWait();
+            } else {
+                String insert = "INSERT INTO user(username, pass, fname, lname, phone) VALUES (?,?,?,?,?)";
 
-        connection = handler.getConnection();
-        try {
-            pst = connection.prepareStatement(insert);
-        } catch (SQLException e) {
-            e.printStackTrace();
+                connection = handler.getConnection();
+                try {
+                    pst = connection.prepareStatement(insert);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    pst.setString(1, tfUsername.getText());
+                    pst.setString(2, tfPass.getText());
+                    pst.setString(3, tfFirstName.getText());
+                    pst.setString(4, tfLastName.getText());
+                    pst.setString(5, tfPhone.getText());
+
+                    pst.executeUpdate();
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Confirmation");
+                alert.setContentText("Account created successfully!");
+
+                alert.showAndWait();
+
+                btnCreateAccount.getScene().getWindow().hide();
+
+                Stage dashboard = new Stage();
+                Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+                Scene scene = new Scene(root);
+                dashboard.setScene(scene);
+                dashboard.show();
+            }
         }
-
-        try {
-            pst.setString(1, tfUsername.getText());
-            pst.setString(2, tfPass.getText());
-            pst.setString(3, tfFirstName.getText());
-            pst.setString(4, tfLastName.getText());
-            pst.setString(5, tfPhone.getText());
-
-            pst.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        btnCreateAccount.getScene().getWindow().hide();
-
-        Stage dashboard = new Stage();
-        Parent root = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
-        Scene scene = new Scene(root);
-        dashboard.setScene(scene);
-        dashboard.show();
     }
 
     @FXML
@@ -100,6 +116,8 @@ public class SignUpController implements Initializable{
         Scene scene = new Scene(root);
         login.setScene(scene);
         login.show();
+        login.setResizable(false);
+
     }
 
 

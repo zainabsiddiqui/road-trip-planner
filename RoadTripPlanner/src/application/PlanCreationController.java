@@ -9,10 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,11 +45,57 @@ public class PlanCreationController implements Initializable{
     @FXML
     private Button btnAddPlan;
 
+    @FXML
+    private Button btnBack;
+
     private Connection connection;
     private DBHandler handler;
     private PreparedStatement pst;
 
     private List<String> cities;
+
+    private int currentPlanID;
+    private int city1ID;
+    private int city2ID;
+    private int city3ID;
+
+
+    private static PlanCreationController instance;
+
+    public PlanCreationController() {
+        instance = this;
+    }
+
+    public static PlanCreationController getInstance() {
+        return instance;
+    }
+
+    public int activePlanID() {
+        return currentPlanID;
+    }
+
+    public int getCity1ID() {
+        return city1ID;
+    }
+
+    public int getCity2ID() {
+        return city2ID;
+    }
+
+    public int getCity3ID() {
+        return city3ID;
+    }
+
+    @FXML
+    void onBack(ActionEvent event) throws IOException {
+        btnAddPlan.getScene().getWindow().hide();
+
+        Stage backTo = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+        Scene scene = new Scene(root);
+        backTo.setScene(scene);
+        backTo.show();
+    }
 
 
 
@@ -83,11 +126,11 @@ public class PlanCreationController implements Initializable{
 
     @FXML
     void addPlan(ActionEvent event) throws IOException {
-        String insert = "INSERT INTO plan(name, start, end, user_id) VALUES (?,?,?,?)";
+        String insertPlan = "INSERT INTO plan(name, start, end, user_id) VALUES (?,?,?,?)";
 
         connection = handler.getConnection();
         try {
-            pst = connection.prepareStatement(insert);
+            pst = connection.prepareStatement(insertPlan);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -104,6 +147,115 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        String getplanID = "select id from plan where name = ? and user_id =?";
+
+        try {
+            pst = connection.prepareStatement(getplanID);
+            pst.setString(1, tfPlanName.getText());
+            pst.setInt(2, LoginController.getInstance().activeID());
+
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) {
+                currentPlanID = rs.getInt("id");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String getCity1ID = "select id from city where name = ?";
+
+        try {
+            pst = connection.prepareStatement(getCity1ID);
+            pst.setString(1, cbCity1.getValue());
+
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) {
+                city1ID = rs.getInt("id");
+            }
+
+            System.out.println(city1ID);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String getCity2ID = "select id from city where name = ?";
+
+        try {
+            pst = connection.prepareStatement(getCity2ID);
+            pst.setString(1, cbCity2.getValue());
+
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) {
+                city2ID = rs.getInt("id");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String getCity3ID = "select id from city where name = ?";
+
+        try {
+            pst = connection.prepareStatement(getCity3ID);
+            pst.setString(1, cbCity3.getValue());
+
+
+            ResultSet rs = pst.executeQuery();
+            while(rs.next()) {
+                city3ID = rs.getInt("id");
+            }
+
+            System.out.println(city3ID);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        String insertVisits = "INSERT INTO visits(plan_id, city_id) VALUES (?,?)";
+
+        try {
+            pst = connection.prepareStatement(insertVisits);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+
+            // Insert same plan, different city 3 times
+            pst.setInt(1, currentPlanID);
+            pst.setInt(2, city1ID);
+
+            pst.executeUpdate();
+
+            pst.setInt(1, currentPlanID);
+            pst.setInt(2, city2ID);
+
+            pst.executeUpdate();
+
+            pst.setInt(1, currentPlanID);
+            pst.setInt(2, city3ID);
+
+            pst.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Confirmation");
+        alert.setContentText("Plan created successfully!");
+
+        alert.showAndWait();
+
         btnAddPlan.getScene().getWindow().hide();
 
         Stage login = new Stage();
@@ -111,6 +263,8 @@ public class PlanCreationController implements Initializable{
         Scene scene = new Scene(root);
         login.setScene(scene);
         login.show();
+
+
     }
 
 }

@@ -43,9 +43,6 @@ public class DashboardController implements Initializable{
     @FXML
     private Label lblPlanCount;
 
-    @FXML
-    private Text txtPlanName;
-
     private DBHandler handler;
     private Connection connection;
     private PreparedStatement pst;
@@ -92,7 +89,6 @@ public class DashboardController implements Initializable{
                     buttonlist.add(new Button(rs.getString("name")));
                     tpPlanDisplay.getChildren().clear();
                     tpPlanDisplay.getChildren().addAll(buttonlist);
-                    txtPlanName.setText(rs.getString("name"));
 
 
 //                    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {

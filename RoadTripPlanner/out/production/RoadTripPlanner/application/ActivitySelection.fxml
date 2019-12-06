@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ActivitySelectionController">
+   <children>
+      <TextField fx:id="tfActivityName" layoutX="413.0" layoutY="209.0">
+         <font>
+            <Font name="Lato Regular" size="14.0" />
+         </font></TextField>
+      <DatePicker fx:id="dpActivityDate" layoutX="413.0" layoutY="262.0" prefHeight="29.0" prefWidth="190.0" />
+      <TextField fx:id="tfActivityCost" layoutX="413.0" layoutY="320.0">
+         <font>
+            <Font name="Lato Regular" size="14.0" />
+         </font></TextField>
+      <Label layoutX="266.0" layoutY="211.0" text="Activity name:">
+         <font>
+            <Font name="Lato Regular" size="18.0" />
+         </font></Label>
+      <Label layoutX="274.0" layoutY="265.0" text="Activity date:">
+         <font>
+            <Font name="Lato Regular" size="18.0" />
+         </font></Label>
+      <Label layoutX="277.0" layoutY="323.0" text="Activity cost:">
+         <font>
+            <Font name="Lato Regular" size="18.0" />
+         </font></Label>
+      <Button fx:id="btnAddAnother" layoutX="344.0" layoutY="451.0" mnemonicParsing="false" onAction="#addAnother" style="-fx-background-color: #708090;" text="ADD ANOTHER" textFill="WHITE">
+         <font>
+            <Font name="Lato Bold" size="18.0" />
+         </font></Button>
+      <Text layoutX="360.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Activities in">
+         <font>
+            <Font name="Lato Regular" size="24.0" />
+         </font></Text>
+      <Text fx:id="txtCityName" layoutX="378.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="City" textAlignment="CENTER">
+         <font>
+            <Font name="Lato Bold" size="48.0" />
+         </font></Text>
+      <Button fx:id="btnAddActivity" defaultButton="true" layoutX="348.0" layoutY="391.0" mnemonicParsing="false" onAction="#addActivity" style="-fx-background-color: #08a385;" text="ADD ACTIVITY" textFill="WHITE">
+         <font>
+            <Font name="Lato Bold" size="18.0" />
+         </font></Button>
+      <ImageView fitHeight="213.0" fitWidth="338.0" layoutX="467.0" layoutY="439.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@city.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnBack" layoutX="47.0" layoutY="39.0" mnemonicParsing="false" onAction="#onBack" style="-fx-background-color: #08a385;" text="← BACK" textFill="WHITE">
+         <font>
+            <Font name="Lato Bold" size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

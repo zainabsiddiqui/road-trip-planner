@@ -1,6 +1,6 @@
 package application;
 
-import connections.DBConnection;
+import dbconnection.DBHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -86,7 +86,6 @@ public class LoginController implements Initializable{
             while(rs.next()) {
                 count += 1;
                 currentUserID = rs.getInt("ID");
-                System.out.println(currentUserID);
             }
 
             if(count == 1) {
@@ -128,15 +127,4 @@ public class LoginController implements Initializable{
         signup.setResizable(false);
     }
 
-    public static boolean isValid(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
 }
