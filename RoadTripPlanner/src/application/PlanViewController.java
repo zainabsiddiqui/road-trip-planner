@@ -131,6 +131,7 @@ public class PlanViewController implements Initializable {
         return city3Name;
     }
 
+    // When user clicks back button, go back to Dashboard.fxml
     @FXML
     void onBack(ActionEvent event) throws IOException {
         btnDeletePlan.getScene().getWindow().hide();
@@ -142,8 +143,10 @@ public class PlanViewController implements Initializable {
         backTo.show();
     }
 
+    // If user clicks the Delete Plan button, this function is fired
     @FXML
     void deletePlan(ActionEvent event) throws IOException {
+        // Query to delete the current plan given the current plan's ID
         String planDeletionQuery = "DELETE FROM plan where id = ?";
 
         connection = handler.getConnection();
@@ -152,12 +155,14 @@ public class PlanViewController implements Initializable {
             pst = connection.prepareStatement(planDeletionQuery);
             pst.setInt(1, currentPlanID);
 
+            // Delete
             pst.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        // Once plan is deleted, hide current screen and go back to Dashboard, where user can no longer find their deleted plan
         btnDeletePlan.getScene().getWindow().hide();
 
         Stage dashboard = new Stage();
@@ -171,7 +176,11 @@ public class PlanViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         handler = new DBHandler();
+
+        // Query to grab other plan details, given plan name and userID
         String planNameQuery = "select * from plan where name = ? and user_id = ?";
+
+        // Initialize variables
         String planName = "Your Plan";
         String startDate = "Start date";
         String endDate = "End date";
@@ -187,8 +196,10 @@ public class PlanViewController implements Initializable {
 
             ResultSet rs = pst.executeQuery();
             while(rs.next()) {
+                // Grab plan name
                 planName = rs.getString("name");
 
+                // Set and display start and end date of plan as received by above query and in the given format
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
                 startDate = dateFormat.format(rs.getDate("start"));
                 endDate = dateFormat.format(rs.getDate("end"));
@@ -197,6 +208,7 @@ public class PlanViewController implements Initializable {
 
             }
 
+            // Display plan name and dates at the top of the page
             txtPlanName.setText(planName);
             txtPlanStart.setText(startDate);
             txtPlanEnd.setText(endDate);
@@ -205,12 +217,11 @@ public class PlanViewController implements Initializable {
             e.printStackTrace();
         }
 
+        // Query to grab cities associated with given plan ID
         String grabCitiesQuery = "select city_id from visits where plan_id = ?";
         try {
             pst = connection.prepareStatement(grabCitiesQuery);
             pst.setInt(1, currentPlanID);
-
-            System.out.println("lol");
 
             ResultSet rs = pst.executeQuery();
 
@@ -225,11 +236,12 @@ public class PlanViewController implements Initializable {
             e.printStackTrace();
         }
 
+        // Set all cityID variables
         city1ID = cityIDs.get(0);
         city2ID = cityIDs.get(1);
         city3ID = cityIDs.get(2);
 
-
+        // Query to grab name of city 1
         String city1Query = "select name from city where id = ?";
          try {
             pst = connection.prepareStatement(city1Query);
@@ -247,6 +259,7 @@ public class PlanViewController implements Initializable {
             e.printStackTrace();
         }
 
+        // Query to grab name of city 2
         String city2Query = "select name from city where id = ?";
         try {
             pst = connection.prepareStatement(city2Query);
@@ -264,6 +277,7 @@ public class PlanViewController implements Initializable {
             e.printStackTrace();
         }
 
+        // Query to grab name of city 3
         String city3Query = "select name from city where id = ?";
         try {
             pst = connection.prepareStatement(city3Query);
@@ -283,6 +297,7 @@ public class PlanViewController implements Initializable {
 
     }
 
+    // If user clicks on the first city's button, display the CityView page for that city
     @FXML
     void viewCity1(ActionEvent event) throws IOException{
         btnDeletePlan.getScene().getWindow().hide();
@@ -296,6 +311,8 @@ public class PlanViewController implements Initializable {
         viewCity.setScene(scene);
         viewCity.show();
     }
+
+    // If user clicks on the second city's button, display the CityView page for that city
 
     @FXML
     void viewCity2(ActionEvent event) throws IOException {
@@ -311,6 +328,7 @@ public class PlanViewController implements Initializable {
         viewCity.show();
     }
 
+    // If user clicks on the third city's button, display the CityView page for that city
     @FXML
     void viewCity3(ActionEvent event) throws IOException {
         btnDeletePlan.getScene().getWindow().hide();

@@ -59,6 +59,8 @@ public class CityViewController implements Initializable {
     private Connection connection;
     private PreparedStatement pst;
 
+
+    // If user clicks on back button, send them back to the Plan View
     @FXML
     void onBack(ActionEvent event) throws IOException {
         btnCarBooking.getScene().getWindow().hide();
@@ -70,6 +72,7 @@ public class CityViewController implements Initializable {
         backTo.show();
     }
 
+    // If user clicks on the Add Activities button, transfer control over to ActivitySelection.fxml
     @FXML
     void addActivity(ActionEvent event) throws IOException{
         btnCarBooking.getScene().getWindow().hide();
@@ -81,6 +84,7 @@ public class CityViewController implements Initializable {
         viewCityCars.show();
     }
 
+    // If user clicks on Add/Change Booking for car rentals, send them to the car booking page
     @FXML
     void bookCar(ActionEvent event) throws IOException{
         btnCarBooking.getScene().getWindow().hide();
@@ -92,6 +96,7 @@ public class CityViewController implements Initializable {
         viewCityCars.show();
     }
 
+    // If user clicks on Add/Change Booking for hotels, send them to the hotel booking page
     @FXML
     void bookHotel(ActionEvent event) throws IOException {
         btnCarBooking.getScene().getWindow().hide();
@@ -105,11 +110,14 @@ public class CityViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        // Display city name at the top of the page
         txtCity1.setText(PlanViewController.getInstance().getSelectedCityName());
 
         handler = new DBHandler();
 
         connection = handler.getConnection();
+
+        // Query to grab hotel bookings already associated with the user and city
         String grabHotelBooking = "select * from hotel_booking where user_id = ? and hotel_id in (select id from hotel where city_id = ?); ";
         String hotelName = "";
         int hotelID = 0;
@@ -128,6 +136,7 @@ public class CityViewController implements Initializable {
 
             while (rs.next()) {
                 count += 1;
+                // Grab associated hotel ID and confirmation number for hotel booking
                 hotelID = rs.getInt("hotel_id");
                 confirmationNumber = rs.getInt("confirmation");
             }
@@ -135,6 +144,8 @@ public class CityViewController implements Initializable {
             if (count == 1) {
 
                 connection = handler.getConnection();
+
+                // Query to grab hotel name from HOTEL table given hotel ID
                 String grabHotelName = "select name from hotel where id = ?";
 
 
@@ -152,6 +163,7 @@ public class CityViewController implements Initializable {
                     e.printStackTrace();
                 }
 
+                // Display the hotel name for already-made hotel booking, as well as confirmation number for that booking
                 txtHotelName.setText(hotelName);
                 txtHotelConfirmation.setText(Integer.toString(confirmationNumber));
             }
@@ -161,6 +173,8 @@ public class CityViewController implements Initializable {
         }
 
         connection = handler.getConnection();
+
+        // Query to grab car rental bookings already associated with the city and user
         String grabCarBooking = "select * from rentalcar_booking where user_id = ? and rentalcar_id in (select id from rentalcar where city_id = ?); ";
         String carName = "";
         int rentalID = 0;
@@ -179,6 +193,7 @@ public class CityViewController implements Initializable {
 
             while (rs.next()) {
                 count += 1;
+                // Grab rental ID and confirmation number from the booking
                 rentalID = rs.getInt("rentalcar_id");
                 carConfirmationNumber = rs.getInt("confirmation");
             }
@@ -186,6 +201,8 @@ public class CityViewController implements Initializable {
             if (count == 1) {
 
                 connection = handler.getConnection();
+
+                // Query to grab car name from RENTALCAR table given car ID
                 String grabCarName = "select model from rentalcar where id = ?";
 
 
@@ -203,6 +220,7 @@ public class CityViewController implements Initializable {
                     e.printStackTrace();
                 }
 
+                // Display car model and confirmation for the already-made booking
                 txtCarModel.setText(carName);
                 txtCarConfirmation.setText(Integer.toString(carConfirmationNumber));
             }
@@ -212,6 +230,8 @@ public class CityViewController implements Initializable {
         }
 
         connection = handler.getConnection();
+
+        // Query to grab activities for an associated city
         String grabActivities = "select * from activity where city_id = ?";
         String activityName = "";
         int activityCost = 0;
@@ -226,6 +246,7 @@ public class CityViewController implements Initializable {
 
 
             while (rs.next()) {
+                // Grab activity names and increment activity costs for the single city
                 activityName = rs.getString("name");
                 activityCost = activityCost + rs.getInt("cost");
                 items.add(activityName);
@@ -239,7 +260,4 @@ public class CityViewController implements Initializable {
 
     }
 
-//    public boolean existsHotelBooking(int user_id, int city_id) {
-//
-//    }
 }

@@ -48,8 +48,11 @@ public class ActivitySelectionController implements Initializable {
     private DBHandler handler;
     private PreparedStatement pst;
 
+    // This function fires once the user clicks on the Add Activity button
     @FXML
     void addActivity(ActionEvent event) {
+
+        // Query to insert activity fields into the ACTIVITIES table
         String insertActivity = "INSERT INTO activity(date, name, cost, city_id) VALUES (?,?,?,?)";
 
         connection = handler.getConnection();
@@ -71,6 +74,7 @@ public class ActivitySelectionController implements Initializable {
             e.printStackTrace();
         }
 
+        // Confirmation sent to the user that activity has been added
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Confirmation");
         alert.setContentText("Activity added successfully!");
@@ -78,6 +82,7 @@ public class ActivitySelectionController implements Initializable {
         alert.showAndWait();
     }
 
+    // Function fires when user clicks Add Another button, at which point text fields are cleared
     @FXML
     void addAnother(ActionEvent event) {
         tfActivityName.clear();
@@ -85,6 +90,7 @@ public class ActivitySelectionController implements Initializable {
         dpActivityDate.getEditor().clear();
     }
 
+    // When user clicks on the back button, user is taken back to the CityView
     @FXML
     void onBack(ActionEvent event) throws IOException {
         btnAddActivity.getScene().getWindow().hide();
@@ -99,6 +105,8 @@ public class ActivitySelectionController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         handler = new DBHandler();
+
+        // Display city name at the top of the page
         txtCityName.setText(PlanViewController.getInstance().getSelectedCityName());
     }
 }

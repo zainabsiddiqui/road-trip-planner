@@ -10,6 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        // Loads in the login page for the application at startup
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         primaryStage.setTitle("Road Trip Planner");
         primaryStage.setScene(new Scene(root, 800, 600));

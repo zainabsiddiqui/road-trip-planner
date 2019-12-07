@@ -59,15 +59,23 @@ public class SignUpController implements Initializable{
         handler = new DBHandler();
     }
 
+    // This function fires once the user clicks the Create Account button
     @FXML
     void createAccount(ActionEvent event) throws IOException {
+        // If any of the fields on the sign up page are empty, throw an error
         if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || tfPass.getText().isEmpty() || tfConfirmPass.getText().isEmpty()
                 || tfPhone.getText().isEmpty() || tfUsername.getText().isEmpty()) {
+
             new Alert(Alert.AlertType.ERROR, "Please fill in all the fields.").showAndWait();
+
         } else {
+            // If the passwords entered on the page do not match, throw an error
             if (!tfPass.getText().equals(tfConfirmPass.getText())) {
+
                 new Alert(Alert.AlertType.ERROR, "Passwords don't match. Please try again!").showAndWait();
+
             } else {
+                // Query to insert all of the information on the page into USER table
                 String insert = "INSERT INTO user(username, pass, fname, lname, phone) VALUES (?,?,?,?,?)";
 
                 connection = handler.getConnection();
@@ -84,18 +92,21 @@ public class SignUpController implements Initializable{
                     pst.setString(4, tfLastName.getText());
                     pst.setString(5, tfPhone.getText());
 
+                    // Execute the above query
                     pst.executeUpdate();
 
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
 
+                // Send an alert to the user notifying them that their account has been created
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Confirmation");
                 alert.setContentText("Account created successfully!");
 
                 alert.showAndWait();
 
+                // Hide the SignUp screen and go back to the Login page, allowing them to enter their credentials
                 btnCreateAccount.getScene().getWindow().hide();
 
                 Stage dashboard = new Stage();
@@ -107,6 +118,8 @@ public class SignUpController implements Initializable{
         }
     }
 
+
+    // This function fires if the user clicks the back button, which leads them back to the Login page
     @FXML
     void loginAction(ActionEvent event) throws IOException {
         btnCreateAccount.getScene().getWindow().hide();

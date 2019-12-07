@@ -68,6 +68,7 @@ public class RentalCarBookingController implements Initializable{
 
     private java.sql.Date date;
 
+    // Function to generate a random number given number of digits, source: https://stackoverflow.com/a/37216930
     public static int randomInt(int digits) {
         int minimum = (int) Math.pow(10, digits - 1); // minimum value with 2 digits is 10 (10^1)
         int maximum = (int) Math.pow(10, digits) - 1; // maximum value with 2 digits is 99 (10^2 - 1)
@@ -75,19 +76,21 @@ public class RentalCarBookingController implements Initializable{
         return minimum + random.nextInt((maximum - minimum) + 1);
     }
 
-
+    // If user clicks on the book button for the first car listing, send to function given the first car's ID
     @FXML
     void bookCar1(ActionEvent event) {
         checkBookingExistsAndUpdate(carIDs.get(0));
 
     }
 
+    // If user clicks on the book button for the second car listing, send to function given the second car's ID
     @FXML
     void bookCar2(ActionEvent event) {
         checkBookingExistsAndUpdate(carIDs.get(0));
 
     }
 
+    // If user clicks on the book button for the third car listing, send to function given the third car's ID
     @FXML
     void bookCar3(ActionEvent event) {
         checkBookingExistsAndUpdate(carIDs.get(0));
@@ -105,6 +108,7 @@ public class RentalCarBookingController implements Initializable{
         backTo.show();
     }
 
+    // NOTE: starting from here, this controller does the same thing the HotelBookingController does, in the same order, just with the car rentals instead
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         handler = new DBHandler();

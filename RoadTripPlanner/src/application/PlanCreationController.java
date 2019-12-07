@@ -54,6 +54,7 @@ public class PlanCreationController implements Initializable{
 
     private List<String> cities;
 
+    // Variables to keep track of the current plan's ID as well as the cities associated with it
     private int currentPlanID;
     private int city1ID;
     private int city2ID;
@@ -86,6 +87,7 @@ public class PlanCreationController implements Initializable{
         return city3ID;
     }
 
+    // If user clicks on the back button, change windows back to Dashboard
     @FXML
     void onBack(ActionEvent event) throws IOException {
         btnAddPlan.getScene().getWindow().hide();
@@ -105,6 +107,7 @@ public class PlanCreationController implements Initializable{
         handler = new DBHandler();
         cities = new ArrayList<>();
 
+        // Query to grab all city names from the CITY table
         String getCities = "select name from city";
 
         connection = handler.getConnection();
@@ -118,14 +121,17 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Populates the city dropdowns with the query data so user can pick from those to create a new plan
         cbCity3.setItems(FXCollections.observableArrayList(cities));
         cbCity2.setItems(FXCollections.observableArrayList(cities));
         cbCity1.setItems(FXCollections.observableArrayList(cities));
 
     }
 
+    // This function fires once the user clicks on the Add Plan button
     @FXML
     void addPlan(ActionEvent event) throws IOException {
+        // Query to insert the fields into the PLAN table and create a new plan
         String insertPlan = "INSERT INTO plan(name, start, end, user_id) VALUES (?,?,?,?)";
 
         connection = handler.getConnection();
@@ -147,6 +153,7 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Query to get the plan ID so as to set the global currentPlanID variable
         String getplanID = "select id from plan where name = ? and user_id =?";
 
         try {
@@ -165,6 +172,7 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Query to grab the first city's ID so as to set the city1ID variable and keep track of it
         String getCity1ID = "select id from city where name = ?";
 
         try {
@@ -184,6 +192,7 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Query to grab the second city's ID so as to set the city2ID variable and keep track of it
         String getCity2ID = "select id from city where name = ?";
 
         try {
@@ -201,6 +210,7 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Query to grab the third city's ID so as to set the city3ID variable and keep track of it
         String getCity3ID = "select id from city where name = ?";
 
         try {
@@ -220,6 +230,7 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Query to insert planID and cityIDs into VISITS table
         String insertVisits = "INSERT INTO visits(plan_id, city_id) VALUES (?,?)";
 
         try {
@@ -230,17 +241,19 @@ public class PlanCreationController implements Initializable{
 
         try {
 
-            // Insert same plan, different city 3 times
+            // Insert same plan ID, first city ID
             pst.setInt(1, currentPlanID);
             pst.setInt(2, city1ID);
 
             pst.executeUpdate();
 
+            // Insert same plan ID, second city ID
             pst.setInt(1, currentPlanID);
             pst.setInt(2, city2ID);
 
             pst.executeUpdate();
 
+            // Insert same plan ID, third city ID
             pst.setInt(1, currentPlanID);
             pst.setInt(2, city3ID);
 
@@ -250,12 +263,14 @@ public class PlanCreationController implements Initializable{
             e.printStackTrace();
         }
 
+        // Once insertions have been successful, send an alert confirming plan creation
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Confirmation");
         alert.setContentText("Plan created successfully!");
 
         alert.showAndWait();
 
+        // Hide current window, change screen back to Dashboard, where user should be able to see newly created plan
         btnAddPlan.getScene().getWindow().hide();
 
         Stage login = new Stage();

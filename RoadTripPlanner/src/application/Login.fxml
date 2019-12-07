@@ -35,9 +35,9 @@
          <font>
             <Font name="Lato Bold" size="18.0" />
          </font></Button>
-      <ImageView fitHeight="255.0" fitWidth="230.0" layoutX="529.0" layoutY="362.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="293.0" fitWidth="293.0" layoutX="493.0" layoutY="313.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@van.png" />
+            <Image url="@carr.png" />
          </image>
       </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#586875" height="65.0" layoutY="554.0" stroke="TRANSPARENT" strokeType="INSIDE" width="816.0" />

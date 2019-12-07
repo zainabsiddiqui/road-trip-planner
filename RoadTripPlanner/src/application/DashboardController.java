@@ -49,6 +49,8 @@ public class DashboardController implements Initializable{
 
     private String clickedPlanName;
 
+
+    // Global function that returns the plan the user has clicked on
     public String clickedPlan() {
         return clickedPlanName;
     }
@@ -66,11 +68,13 @@ public class DashboardController implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources)  {
         handler = new DBHandler();
-//        setUsername(LoginController.getInstance().username());
 
+        // Create a new ArrayList to handle buttons associated with each plan
         List<Button> buttonlist = new ArrayList<>();
 
         connection = handler.getConnection();
+
+        // Query to grab the already-created plans for the user
         String getPlans = "SELECT * FROM plan WHERE user_id=?";
 
             try {
@@ -84,36 +88,13 @@ public class DashboardController implements Initializable{
 
                 int count = 0;
 
-
+                // While there are more plans, generate new buttons labeled with plan name
                 while(rs.next()) {
                     buttonlist.add(new Button(rs.getString("name")));
                     tpPlanDisplay.getChildren().clear();
                     tpPlanDisplay.getChildren().addAll(buttonlist);
 
-
-//                    EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
-//                        public void handle(ActionEvent e)
-//                        {
-//                            try {
-//                                activePlanID = rs.getInt("ID");
-//                            } catch (SQLException e1) {
-//                                e1.printStackTrace();
-//                            }
-//
-//                            btnLogout.getScene().getWindow().hide();
-//
-//                            Stage viewPlan = new Stage();
-//                            Parent root = null;
-//                            try {
-//                                root = FXMLLoader.load(getClass().getResource("PlanView.fxml"));
-//                            } catch (IOException e1) {
-//                                e1.printStackTrace();
-//                            }
-//                            Scene scene = new Scene(root);
-//                            viewPlan.setScene(scene);
-//                            viewPlan.show();
-//                        }
-//                    };
+                    // If any of these plan buttons are clicked, update the clickedPlan variable with the plan name, change to that plan's page
                     buttonlist.get(count).setOnAction(event -> {
                             Object node = event.getSource();
                             Button b = (Button) node;
@@ -128,6 +109,7 @@ public class DashboardController implements Initializable{
                             } catch (IOException e1) {
                                 e1.printStackTrace();
                             }
+
                             Scene scene = new Scene(root);
                             viewPlan.setScene(scene);
                             viewPlan.show();
@@ -135,6 +117,7 @@ public class DashboardController implements Initializable{
                     count += 1;
                 }
 
+                // Generate a count for number of travel plans user has and display it on the page
                 lblPlanCount.setText(Integer.toString(count));
 
             } catch (SQLException e) {
@@ -146,19 +129,22 @@ public class DashboardController implements Initializable{
                     e.printStackTrace();
                 }
             }
+
             setUsername(LoginController.getInstance().username());
-
-
     }
 
+    // Display the username on the dashbboard in welcome message
     public void setUsername(String user) {
         this.txtUserName.setText(user);
     }
 
+
+    // This function is fired if the user clicks the Create New Plan button
     @FXML
     void createNewPlan(ActionEvent event) throws IOException {
         btnLogout.getScene().getWindow().hide();
 
+        // Hide current window, transfer control to PlanCreation.fxml
         Stage newPlan = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("PlanCreation.fxml"));
         Scene scene = new Scene(root);
@@ -166,10 +152,12 @@ public class DashboardController implements Initializable{
         newPlan.show();
     }
 
+    // This function is fired if the user clicks on the Log Out button
     @FXML
     void logOut(ActionEvent event) throws IOException {
         btnLogout.getScene().getWindow().hide();
 
+        // Hide current window, transfer control back to the Login page
         Stage backToLogin = new Stage();
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         Scene scene = new Scene(root);
